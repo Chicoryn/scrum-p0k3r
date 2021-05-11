@@ -1,1 +1,19 @@
-Welcome!
+<div class='card-container'>
+  <div class='create-room card'>
+    <span class='card-title'>Create new room</span>
+    <%= form_with url: '/room', method: :post do |form| %>
+      <%= form.label :name, 'Name:' %>
+      <%= form.text_field :name %>
+      <%= form.submit "Create Room" %>
+    <% end %>
+  </div>
+
+  <div class='join-room card'>
+    <span class='card-title'>Join existing room</span>
+    <%= form_with url: '/room', method: :get do |form| %>
+      <%= form.label :id, 'ID:' %>
+      <%= form.text_field :id %>
+      <%= form.submit "Join" %>
+    <% end %>
+  </div>
+</div>
