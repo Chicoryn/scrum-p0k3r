@@ -22,7 +22,12 @@
         <%= participant.name %>
       </td>
       <td>
-        <%= participant.choice_for_round(round) %>
+        <% vote = participant.vote_for_round(round.id) %>
+        <% if vote&.sealed? %>
+          <span class='sealed'>Sealed</span>
+        <% else %>
+          <%= vote&.human_choice %>
+        <% end %>
       </td>
     </tr>
   <% end %>

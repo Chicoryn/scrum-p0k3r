@@ -3,6 +3,11 @@ Rails.application.routes.draw do
     resources :participant, only: [:new, :create]
     resources :round, only: [:create] do
       resources :vote, only: [:create]
+
+      member do
+        post :reset
+        post :unseal
+      end
     end
 
     member do

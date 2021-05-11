@@ -9,7 +9,10 @@ class VoteController < ApplicationController
           participant_id: @participant.id,
           round_id: @round.id
         )
-        vote.update_attribute(:choice, { value: params[:choice] })
+        vote.update(
+          choice: { value: params[:choice] },
+          sealed: true
+        )
         vote
       end
 

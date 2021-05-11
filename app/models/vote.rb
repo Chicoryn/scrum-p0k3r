@@ -8,6 +8,10 @@ class Vote < ApplicationRecord
   after_create :broadcast_new_vote
   after_update :broadcast_new_vote
 
+  def human_choice
+    choice&.[]('value')
+  end
+
   private
 
   def broadcast_new_vote

@@ -25,11 +25,21 @@ Hello <%= @participant&.name %>! Invite additional participants with the followi
     <div class='panel' id='current-standing-panel' data-refresh-url='<%= current_standing_room_path(@room_hash.hash) %>'>
       <%= render partial: 'current_standing', locals: { room: @room, round: @round, participant: @participant } %>
     </div>
+
+    <div class='panel'>
+      <span class='panel-title'>Round Controls</span>
+      <%= form_with url: reset_room_round_path(@room_hash.hash, @round.id), action: :post, html: { "data-remote" => true } do |form| %>
+        <%= form.submit 'Reset' %>
+      <% end %>
+      <%= form_with url: unseal_room_round_path(@room_hash.hash, @round.id), action: :post, html: { "data-remote" => true } do |form| %>
+        <%= form.submit 'Unseal' %>
+      <% end %>
+    </div>
   <% end %>
 
   <div class='panel'>
     <span class='panel-title'>Start New Round</span>
-    <%= form_with url: room_round_index_path(@room.id), action: :post, html: { "data-remote" => true } do |form| %>
+    <%= form_with url: room_round_index_path(@room_hash.hash), action: :post, html: { "data-remote" => true } do |form| %>
       <div>
         <%= form.text_area :description, size: '80x4' %>
       </div>

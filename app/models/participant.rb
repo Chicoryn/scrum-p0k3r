@@ -8,9 +8,8 @@ class Participant < ApplicationRecord
   after_create :broadcast_new_participant
   after_update :broadcast_new_participant
 
-  def choice_for_round(round_id)
-    vote = votes.for_round(round_id).take
-    vote&.choice&.[]('value')
+  def vote_for_round(round_id)
+    votes.for_round(round_id).take
   end
 
   private
