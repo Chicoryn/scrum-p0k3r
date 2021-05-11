@@ -1,32 +1,43 @@
 <h1><%= @room.name %></h1>
 
-<% if @room.current_round %>
-  <%= form_with model: @room.current_round, action: :patch, html: { remote: true } do |form| %>
-    <div title='cards-container'>
-      <div class='card' data-value='?'></div>
-      <div class='card' data-value='1'></div>
-      <div class='card' data-value='2'></div>
-      <div class='card' data-value='3'></div>
-      <div class='card' data-value='5'></div>
-      <div class='card' data-value='7'></div>
-      <div class='card' data-value='11'></div>
-      <div class='card' data-value='13'></div>
-      <div class='card' data-value='17'></div>
+<p>
+Hello <%= @participant&.name %>! Invite additional participants with the following URL:
+</p>
+
+<input type='text' size='80' value='<%= join_room_url(RoomHashService.new(@room.id, nil).hash) %>'>
+
+<div class='panel-container'>
+  <% if @round %>
+    <div class='panel'>
+      <span class='panel-title'>Vote</span>
+      <p>
+        <%= @round.description %>
+      </p>
+      <div class='card-container'>
+        <% ['?', 1, 2, 3, 5, 7, 11, 13, 17].each do |value| %>
+          <%= form_with url: room_round_vote_index_path(@room_hash.hash, @round.id), action: :post, html: { "data-remote" => true } do |form| %>
+            <%= form.hidden_field :choice, id: nil, value: value %>
+            <%= form.submit(value, class: 'card') %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class='panel' id='current-standing-panel' data-refresh-url='<%= current_standing_room_path(@room_hash.hash) %>'>
+      <%= render partial: 'current_standing', locals: { room: @room, round: @round, participant: @participant } %>
     </div>
   <% end %>
-<% end %>
 
-<div>
-  <%= form_with url: round_path, action: :post, html: { remote: true } do |form| %>
-    <%= form.hidden_field :room_id, value: @room.id %>
-    <%= form.text_area :description, size: '120x4' %>
-    <%= form.submit 'Start new round' %>
-  <% end %>
-<div class='card'>
+  <div class='panel'>
+    <span class='panel-title'>Start New Round</span>
+    <%= form_with url: room_round_index_path(@room.id), action: :post, html: { "data-remote" => true } do |form| %>
+      <div>
+        <%= form.text_area :description, size: '80x4' %>
+      </div>
+      <div class='align-right'>
+        <%= form.submit 'Start' %>
+      </div>
+    <% end %>
+  </div>
+</div>
 
-<script>
-  document.querySelectorAll('.card').forEach((card) => {
-    var value = card.dataset.value;
-    card.textContent = value;
-  });
-</script>
+<%= javascript_pack_tag 'room' %>

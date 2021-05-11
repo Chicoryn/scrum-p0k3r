@@ -1,0 +1,10 @@
+<div class='panel-container'>
+  <div class='create-room panel'>
+    <span class='panel-title'>Join Room <%= @room.name %></span>
+    <%= form_with url: room_participant_index_path(@room_hash.hash), method: :post do |form| %>
+      <%= form.label :name, 'Your Name:' %>
+      <%= form.text_field :name %>
+      <%= form.submit "Join" %>
+    <% end %>
+  </div>
+</div>

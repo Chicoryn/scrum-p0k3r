@@ -1,0 +1,29 @@
+<span class='panel-title'>Current Standing</span>
+<table>
+  <tr>
+    <th>
+      Participant
+    </th>
+    <th>
+      Choice
+    </th>
+  </tr>
+  <% connected = room.participants.connected %>
+  <% voted = room.participants.voted(round.id) %>
+  <% participants = voted.or(connected) %>
+  <% participants.order(:name, :id).each do |participant| %>
+    <tr data-participant-id='<%= participant.id %>'>
+      <td>
+        <% if participant.connected? %>
+          <span class='icon online'>&#8203;</span>
+        <% else %>
+          <span class='icon offline'>&#8203;</span>
+        <% end %>
+        <%= participant.name %>
+      </td>
+      <td>
+        <%= participant.choice_for_round(round) %>
+      </td>
+    </tr>
+  <% end %>
+</table>

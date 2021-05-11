@@ -1,7 +1,6 @@
 class Room < ApplicationRecord
   has_many :rounds
-
-  after_create :ensure_round
+  has_many :participants
 
   def current_round
     self.rounds.latest

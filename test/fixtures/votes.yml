@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  participant_id: 
+  round_id: 
+  choice: 
+
+two:
+  participant_id: 
+  round_id: 
+  choice: 
