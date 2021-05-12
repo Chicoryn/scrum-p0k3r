@@ -1,10 +1,12 @@
-<div class='panel-container'>
-  <div class='create-room panel'>
-    <span class='panel-title'>Create new room</span>
-    <%= form_with url: room_index_path, method: :post do |form| %>
-      <%= form.label :name, 'Name:' %>
-      <%= form.text_field :name %>
-      <%= form.submit "Create Room" %>
-    <% end %>
-  </div>
+<% content_for :stylesheets do %>
+  <% stylesheet_link_tag 'home', media: 'all', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<div class='panel create-room'>
+  <div class='title'>Create new room</div>
+  <%= form_with url: room_index_path, method: :post do |form| %>
+    <%= form.label :name, 'Name' %>
+    <%= form.text_field :name, autofocus: 'autofocus' %>
+    <%= form.submit "Create" %>
+  <% end %>
 </div>

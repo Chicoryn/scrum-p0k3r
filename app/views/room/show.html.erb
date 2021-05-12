@@ -1,53 +1,82 @@
-<h1><%= @room.name %></h1>
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'room', media: 'all', 'data-turbolinks-track': 'reload' %>
+<% end %>
 
-<p>
-Hello <%= @participant&.name %>! Invite additional participants with the following URL:
-</p>
+<% content_for :scripts do %>
+  <%= javascript_pack_tag 'room' %>
+<% end %>
 
-<input type='text' size='80' value='<%= join_room_url(RoomHashService.new(@room.id, nil).hash) %>'>
+<div class='flex-container column'>
+  <div class='greeting panel'>
+    <div class='title'><%= @room.name %></div>
 
-<div class='panel-container'>
+    <p>
+      Hello <%= @participant&.name %>! You can invite additional participants with the following URL:
+    </p>
+
+    <div class='flex-container'>
+      <input type='text' class='flex' value='<%= join_room_url(RoomHashService.new(@room.id, nil).hash) %>'>
+    </div>
+  </div>
+
   <% if @round %>
-    <div class='panel'>
-      <span class='panel-title'>Vote</span>
-      <p>
-        <%= @round.description %>
-      </p>
-      <div class='card-container'>
-        <% ['?', 1, 2, 3, 5, 7, 11, 13, 17].each do |value| %>
-          <%= form_with url: room_round_vote_index_path(@room_hash.hash, @round.id), action: :post, html: { "data-remote" => true } do |form| %>
-            <%= form.hidden_field :choice, id: nil, value: value %>
-            <%= form.submit(value, class: 'card') %>
+    <div class='flex-container row'>
+      <div class='vote-machine panel'>
+        <p>
+          <%= @round.description %>
+        </p>
+        <div class='card-container'>
+          <% ['?', 1, 2, 3, 5, 7, 8, 11, 13, 17, 21].each do |value| %>
+            <%= form_with url: room_round_vote_index_path(@room_hash.hash, @round.id), action: :post, html: { "data-remote" => true } do |form| %>
+              <%= form.hidden_field :choice, id: nil, value: value %>
+              <%= form.submit(value, class: 'card') %>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
+      </div>
+
+      <div class='current-standing panel' id='current-standing-panel' data-refresh-url='<%= current_standing_room_path(@room_hash.hash) %>'>
+        <%= render partial: 'current_standing', locals: { room: @room, round: @round, participant: @participant } %>
       </div>
     </div>
-    <div class='panel' id='current-standing-panel' data-refresh-url='<%= current_standing_room_path(@room_hash.hash) %>'>
-      <%= render partial: 'current_standing', locals: { room: @room, round: @round, participant: @participant } %>
-    </div>
 
-    <div class='panel'>
-      <span class='panel-title'>Round Controls</span>
-      <%= form_with url: reset_room_round_path(@room_hash.hash, @round.id), action: :post, html: { "data-remote" => true } do |form| %>
-        <%= form.submit 'Reset' %>
-      <% end %>
-      <%= form_with url: unseal_room_round_path(@room_hash.hash, @round.id), action: :post, html: { "data-remote" => true } do |form| %>
-        <%= form.submit 'Unseal' %>
-      <% end %>
+    <div class='round-control panel'>
+      <div class='flex-container row'>
+        <div class='flex align-center'>
+          <%= form_with url: reset_room_round_path(@room_hash.hash, @round.id), action: :post, html: { "data-remote" => true } do |form| %>
+            <p class='tip'>
+              Remove all votes from the current round.
+            </p>
+            <%= form.submit 'Reset' %>
+          <% end %>
+        </div>
+        <div class='flex align-center'>
+          <%= form_with url: unseal_room_round_path(@room_hash.hash, @round.id), action: :post, html: { "data-remote" => true } do |form| %>
+            <p class='tip'>
+              Make all votes visible to all participants.
+            </p>
+            <%= form.submit 'Unseal' %>
+          <% end %>
+        </div>
+      </div>
     </div>
   <% end %>
 
   <div class='panel'>
-    <span class='panel-title'>Start New Round</span>
+    <p>
+      In order to start voting on a new story enter a short description in the
+      text area below and press the <i>Create New Round</i> button. Any active
+      participants will automatically see the new story and be able to vote. Any
+      votes will be <i>sealed</i> until manually unsealed.
+    </p>
     <%= form_with url: room_round_index_path(@room_hash.hash), action: :post, html: { "data-remote" => true } do |form| %>
-      <div>
-        <%= form.text_area :description, size: '80x4' %>
+      <%= form.label :description, 'Description' %>
+      <div class="flex-container">
+        <%= form.text_area :description, size: '80x4', class: 'flex' %>
       </div>
       <div class='align-right'>
-        <%= form.submit 'Start' %>
+        <%= form.submit 'Create New Round' %>
       </div>
     <% end %>
   </div>
 </div>
-
-<%= javascript_pack_tag 'room' %>

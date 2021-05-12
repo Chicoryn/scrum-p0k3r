@@ -1,23 +1,13 @@
-// Place all the styles related to the home controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+@import 'colors';
 
-.panel-container {
-  display: block;
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .panel {
-    .panel-title {
-      position: relative;
-      top: -15px;
-
-      background: white;
-      padding: 5px;
-    }
-
+.create-room {
+  input[type=text], input[type=submit] {
     display: inline-block;
-    margin: 15px;
-    padding: 5px;
-    border: 1px solid;
-    border-radius: 5px;
   }
 }

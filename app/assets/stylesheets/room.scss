@@ -2,71 +2,96 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+.flex-container {
+  display: flex;
+
+  & > .flex {
+    flex: 1;
+  }
+
+  &.column {
+    flex-direction: column;
+  }
+
+  &.row {
+    flex-direction: row;
+  }
+}
+
+textarea {
+  resize: vertical;
+}
+
+.align-center {
+  text-align: center;
+}
+
 .align-right {
   text-align: right;
 }
 
+.vote-machine, .current-standing {
+  flex: 0.5;
+}
+
 .card-container {
   display: flex;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: -1em;
 
   .card {
-    display: inline-flex;
-    width: 2em;
-    height: 5em;
+    width: 5em;
+    height: 8em;
 
-    margin: 5px;
-    border: 1px solid;
-    border-radius: 5px;
-
-    font-weight: bold;
-    justify-content: center;
-    align-items: center;
-
-    &.selected {
-      background-color: lightgrey;
-    }
-
-    &:hover {
-      background-color: gray;
-      cursor: pointer;
-    }
+    margin: 1em;
   }
 }
 
-.panel-container {
-  display: flex;
-  flex-wrap: wrap;
+.current-standing {
+  table {
+    table-layout: fixed;
+    border: 0;
+    border-collapse: collapse;
+    border-spacing: 2px;
+    width: 100%;
 
-  .panel {
-    .panel-title {
-      position: relative;
-      top: -15px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
 
-      background: white;
-      padding: 5px;
+    th {
+      padding: 0 1em;
+      height: 2.5em;
+      text-align: left;
     }
 
-    display: inline-block;
-    margin: 15px;
-    padding: 5px;
-    border: 1px solid;
-    border-radius: 5px;
+    td {
+      padding: 0 1em;
+      height: 2em;
+    }
+
+    tr {
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .connection-status {
+    font-style: italic;
+    font-size: 60%;
+    color: #aaa;
+  }
+
+  .sealed {
+    font-style: italic;
+    font-size: 90%;
+    color: #aaa;
   }
 }
 
-.icon {
-  position: relative;
-  top: calc(0.5em - 0.75ex);
-  height: 1.5ex;
-  width: 1.5ex;
-  border-radius: 50%;
-  display: inline-block;
-
-  &.online {
-    background-color: green;
-  }
-  &.offline {
-    background-color: red;
+.round-control {
+  .tip {
+    font-size: 90%;
+    width: 50%;
+    padding: 0 25%;
+    margin-top: 0;
   }
 }

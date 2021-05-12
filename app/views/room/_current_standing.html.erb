@@ -1,34 +1,40 @@
-<span class='panel-title'>Current Standing</span>
+<p>
+  Votes for all participants that are either currently online, or has already
+  cast a vote in this round.
+</p>
+
 <table>
-  <tr>
-    <th>
-      Participant
-    </th>
-    <th>
-      Choice
-    </th>
-  </tr>
-  <% connected = room.participants.connected %>
-  <% voted = room.participants.voted(round.id) %>
-  <% participants = voted.or(connected) %>
-  <% participants.order(:name, :id).each do |participant| %>
-    <tr data-participant-id='<%= participant.id %>'>
-      <td>
-        <% if participant.connected? %>
-          <span class='icon online'>&#8203;</span>
-        <% else %>
-          <span class='icon offline'>&#8203;</span>
-        <% end %>
-        <%= participant.name %>
-      </td>
-      <td>
-        <% vote = participant.vote_for_round(round.id) %>
-        <% if vote&.sealed? %>
-          <span class='sealed'>Sealed</span>
-        <% else %>
-          <%= vote&.human_choice %>
-        <% end %>
-      </td>
+  <thead>
+    <tr>
+      <th>
+        Participant
+      </th>
+      <th>
+        Choice
+      </th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% connected = room.participants.connected %>
+    <% voted = room.participants.voted(round.id) %>
+    <% participants = voted.or(connected) %>
+    <% participants.order(:name, :id).each do |participant| %>
+      <tr data-participant-id='<%= participant.id %>'>
+        <td>
+          <%= participant.name %>
+          <% if !participant.connected? %>
+            <span class='connection-status'>(disconnected)</span>
+          <% end %>
+        </td>
+        <td>
+          <% vote = participant.vote_for_round(round.id) %>
+          <% if vote&.sealed? %>
+            <span class='sealed'>Sealed</span>
+          <% else %>
+            <%= vote&.human_choice %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

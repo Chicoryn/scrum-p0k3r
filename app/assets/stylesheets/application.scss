@@ -1,0 +1,68 @@
+@import 'colors';
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: #268ecd;
+  color: #333;
+  margin: 0;
+}
+
+.panel {
+  background-color: #ffffff;
+  box-shadow: 2px 2px 5px 0px #000000;
+  border-radius: 0.5em;
+  padding: 1em;
+  margin: 1em;
+
+  .title {
+    font-size: 150%;
+    margin-bottom: 1em;
+    text-align: center;
+  }
+
+  & > p:first-child {
+    margin-top: 0;
+  }
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: #60768a;
+}
+
+input[type=text], textarea {
+  display: block;
+  padding: 0.5em 0.625em;
+  margin: 0.5em 0 1em 0;
+  border: 1px solid $border-color;
+  border-radius: 3px;
+
+  &:focus, &:focus-visible {
+    outline: 0;
+    border-color: $border-color-focus;
+    box-shadow: 0 0 3px #fab882;
+  }
+}
+
+input[type=submit] {
+  display: inline-block;
+  padding: 0.5em 1em;
+  border: 1px solid $border-color;
+  border-radius: 5px;
+  color: #2e2d2e;
+  font-weight: bold;
+
+  &:hover {
+    border-color: $border-color-hover;
+  }
+
+  &:focus, &:focus-visible {
+    outline: 0;
+    border-color: $border-color-focus;
+    box-shadow: 0 0 3px #fab882;
+  }
+}
